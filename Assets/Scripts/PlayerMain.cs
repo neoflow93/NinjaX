@@ -20,6 +20,7 @@ public class PlayerMain : MonoBehaviour {
 		// 패드 처리
 		float joyMv = Input.GetAxis ("Horizontal");
 		playerCtrl.ActionMove (joyMv);
+		//Debug.Log ("joyMv = " + joyMv);
 
 		// 점프
 		if (Input.GetButtonDown ("Jump")) {

@@ -66,8 +66,9 @@ public class PlayerController : BaseCharacterController {
 		
 		// 애니메이션 지정
 		float moveSpeed = Mathf.Clamp(Mathf.Abs (n),-1.0f,+1.0f);
-		animator.SetFloat("MovSpeed",moveSpeed);
+		animator.SetFloat("MoveSpeed", moveSpeed);
 		//animator.speed = 1.0f + moveSpeed;
+		//Debug.Log ("moveSpeed : " + moveSpeed);
 		
 		// 이동 체크
 		if (n != 0.0f) {
