@@ -117,6 +117,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 399815286}
+  - {fileID: 1549598778}
   m_Father: {fileID: 0}
   m_RootOrder: 1
 --- !u!1 &399815285
@@ -129,7 +130,7 @@ GameObject:
   - 4: {fileID: 399815286}
   - 212: {fileID: 399815287}
   m_Layer: 0
-  m_Name: Player_Idle1
+  m_Name: Player_Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -253,3 +254,66 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!1 &1549598777
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1549598778}
+  - 61: {fileID: 1549598781}
+  - 58: {fileID: 1549598780}
+  - 58: {fileID: 1549598779}
+  m_Layer: 11
+  m_Name: Collider_Body
+  m_TagString: PlayerBody
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1549598778
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1549598777}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 73194323}
+  m_RootOrder: 1
+--- !u!58 &1549598779
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1549598777}
+  m_Enabled: 1
+  m_Material: {fileID: 6200000, guid: 4ab15c4c3c3a8664282ee13883cab42c, type: 2}
+  m_IsTrigger: 0
+  m_Radius: .200000003
+  m_Center: {x: 0, y: -.0500000007}
+--- !u!58 &1549598780
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1549598777}
+  m_Enabled: 1
+  m_Material: {fileID: 6200000, guid: e17167d2a4f10384fa165b7e9f26fbac, type: 2}
+  m_IsTrigger: 0
+  m_Radius: .400000006
+  m_Center: {x: 0, y: .200000003}
+--- !u!61 &1549598781
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1549598777}
+  m_Enabled: 1
+  m_Material: {fileID: 6200000, guid: e17167d2a4f10384fa165b7e9f26fbac, type: 2}
+  m_IsTrigger: 0
+  m_Size: {x: .769999981, y: 1.5}
+  m_Center: {x: 0, y: .949999988}
