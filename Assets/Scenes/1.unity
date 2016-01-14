@@ -183,6 +183,7 @@ Transform:
   m_Children:
   - {fileID: 399815286}
   - {fileID: 1549598778}
+  - {fileID: 1087390497}
   - {fileID: 132933479}
   - {fileID: 829313726}
   - {fileID: 1916039878}
@@ -317,7 +318,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 73194323}
-  m_RootOrder: 2
+  m_RootOrder: 3
 --- !u!1 &239362667
 GameObject:
   m_ObjectHideFlags: 0
@@ -530,7 +531,7 @@ SpriteRenderer:
   m_ScaleInLightmap: 1
   m_SortingLayerID: 3982094349
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 79a2a0e72de0a6c41b65f3cd2f36e551, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f1935b98474ff2b47a6ff6d051771a2e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &514420660
 GameObject:
@@ -766,7 +767,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 73194323}
-  m_RootOrder: 3
+  m_RootOrder: 4
 --- !u!1 &836084908
 GameObject:
   m_ObjectHideFlags: 0
@@ -829,6 +830,45 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f108393317a1a8d4fb81e921c727b95c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
+--- !u!1 &1087390496
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1087390497}
+  - 58: {fileID: 1087390498}
+  m_Layer: 11
+  m_Name: Collider_Attack
+  m_TagString: PlayerArm
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1087390497
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1087390496}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 73194323}
+  m_RootOrder: 2
+--- !u!58 &1087390498
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1087390496}
+  m_Enabled: 0
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Radius: .5
+  m_Center: {x: 0, y: 0}
 --- !u!1 &1177759328
 GameObject:
   m_ObjectHideFlags: 0
@@ -1228,7 +1268,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 73194323}
-  m_RootOrder: 4
+  m_RootOrder: 5
 --- !u!1 &2088641579
 GameObject:
   m_ObjectHideFlags: 0

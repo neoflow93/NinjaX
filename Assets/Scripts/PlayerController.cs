@@ -2,15 +2,31 @@
 using System.Collections;
 
 public class PlayerController : BaseCharacterController {
-
 	// === 외부 파라미터（Inspector 표시） =====================
 						 public float 	initHpMax = 20.0f;
 	[Range(0.1f,100.0f)] public float 	initSpeed = 12.0f;
 
+	// === 외부 파라미터 ======================================
+	// 애니메이션 해시 이름
+	public readonly static int ANISTS_Idle 	 		= Animator.StringToHash("Base Layer.Player_Idle");
+	public readonly static int ANISTS_Walk 	 		= Animator.StringToHash("Base Layer.Player_Walk");
+	public readonly static int ANISTS_Run 	 	 	= Animator.StringToHash("Base Layer.Player_Run");
+	public readonly static int ANISTS_Jump 	 		= Animator.StringToHash("Base Layer.Player_Jump");
+	public readonly static int ANISTS_ATTACK_A 		= Animator.StringToHash("Base Layer.Player_ATK_A");
+	public readonly static int ANISTS_ATTACK_B 		= Animator.StringToHash("Base Layer.Player_ATK_B");
+	public readonly static int ANISTS_ATTACK_C	 	= Animator.StringToHash("Base Layer.Player_ATK_C");
+	public readonly static int ANISTS_ATTACKJUMP_A  = Animator.StringToHash("Base Layer.Player_ATKJUMP_A");
+	public readonly static int ANISTS_ATTACKJUMP_B  = Animator.StringToHash("Base Layer.Player_ATKJUMP_B");
+
 	// === 내부 파라미터 ======================================
 	int 			jumpCount			= 0;
+
+	volatile bool 	atkInputEnabled		= false;
+	volatile bool	atkInputNow			= false;
+
 	bool			breakEnabled		= true;
 	float 			groundFriction		= 0.0f;
+
 
 	// === 코드（Monobehaviour기본 기능 구현） ================
 	protected override void Awake () {
@@ -22,23 +38,36 @@ public class PlayerController : BaseCharacterController {
 	}
 	
 	protected override void FixedUpdateCharacter () {
+		// 현재 스테이트 가져오기
+		AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+
 		// 착지했는지 검사
 		if (jumped) {
-			if ((grounded && !groundedPrev) || (grounded && Time.fixedTime > jumpStartTime + 1.0f)) {
+			if ((grounded && !groundedPrev) || 
+				(grounded && Time.fixedTime > jumpStartTime + 1.0f)) {
 				animator.SetTrigger ("Idle");
-				jumped = false;
+				jumped 	  = false;
 				jumpCount = 0;
 			}
-		} 
-		if (!jumped) {
+		} else {
 			jumpCount = 0;
+		}
+
+		// 공격 중인지 검사
+		if (stateInfo.nameHash == ANISTS_ATTACK_A || 
+		    stateInfo.nameHash == ANISTS_ATTACK_B || 
+		    stateInfo.nameHash == ANISTS_ATTACK_C || 
+		    stateInfo.nameHash == ANISTS_ATTACKJUMP_A || 
+		    stateInfo.nameHash == ANISTS_ATTACKJUMP_B) {
+			// 이동 정지
+			speedVx = 0;
 		}
 
 		// 캐릭터 방향
 		transform.localScale = new Vector3 (basScaleX * dir, transform.localScale.y, transform.localScale.z);
 
 		// 점프 도중에 가로 이동 감속
-		if (jumped && !grounded) {
+		if (jumped && !grounded && groundCheck_OnMoveObject == null) {
 			if (breakEnabled) {
 				breakEnabled = false;
 				speedVx *= 0.9f;
@@ -51,7 +80,19 @@ public class PlayerController : BaseCharacterController {
 		}
 
 		// 카메라
-		Camera.main.transform.position = transform.position - Vector3.forward;
+		Camera.main.transform.position = transform.position + Vector3.back;
+	}
+
+	// === 코드(애니메이션 이벤트용 코드) ===============
+	public void EnebleAttackInput() {
+		atkInputEnabled = true;
+	}
+	
+	public void SetNextAttack(string name) {
+		if (atkInputNow == true) {
+			atkInputNow = false;
+			animator.Play(name);
+		}
 	}
 
 	// === 코드（기본 액션） =============================
@@ -66,10 +107,8 @@ public class PlayerController : BaseCharacterController {
 		
 		// 애니메이션 지정
 		float moveSpeed = Mathf.Clamp(Mathf.Abs (n),-1.0f,+1.0f);
-		animator.SetFloat("MoveSpeed", moveSpeed);
-		//animator.speed = 1.0f + moveSpeed;
-		//Debug.Log ("moveSpeed : " + moveSpeed);
-		
+		animator.SetFloat("MovSpeed",moveSpeed);
+
 		// 이동 체크
 		if (n != 0.0f) {
 			// 이동
@@ -101,7 +140,7 @@ public class PlayerController : BaseCharacterController {
 		case 1 :
 			if (!grounded) {
 				animator.Play("Player_Jump",0,0.0f);
-				rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, 20.0f);
+				rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x,20.0f);
 				jumped = true;
 				jumpCount ++;
 			}
@@ -109,6 +148,20 @@ public class PlayerController : BaseCharacterController {
 		}
 	}
 
+	public void ActionAttack() {
+		AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+		if (stateInfo.nameHash == ANISTS_Idle || stateInfo.nameHash == ANISTS_Walk || stateInfo.nameHash == ANISTS_Run || 
+		    stateInfo.nameHash == ANISTS_Jump) {
+
+			animator.SetTrigger ("Attack_A");
+		} else {
+			if (atkInputEnabled) {
+				atkInputEnabled = false;
+				atkInputNow 	= true;
+			}
+		}
+	}
+	
 }
 
 

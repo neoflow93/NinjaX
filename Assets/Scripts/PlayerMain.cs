@@ -25,6 +25,12 @@ public class PlayerMain : MonoBehaviour {
 		// 점프
 		if (Input.GetButtonDown ("Jump")) {
 			playerCtrl.ActionJump ();
+			return;
+		}
+
+		// 공격
+		if (Input.GetButtonDown("Fire1") || Input.GetButtonDown("Fire2") || Input.GetButtonDown("Fire3")) {
+			playerCtrl.ActionAttack();
 		}
 	}
 
