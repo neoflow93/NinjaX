@@ -397,7 +397,7 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_Events:
   - time: .100000001
-    functionName: SetVelocityVx
+    functionName: SetVelocityVy
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

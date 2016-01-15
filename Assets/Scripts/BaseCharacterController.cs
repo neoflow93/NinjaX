@@ -168,7 +168,8 @@ public class BaseCharacterController : MonoBehaviour {
 			jumpStartTime = Time.fixedTime;
 		}
 	}
-	
+
+
 	public virtual void AddVelocityVx(float vx) {
 		//Debug.Log (string.Format("--- AddVelocityVx {0} ----------------",vx));
 		addVelocityEnabled = true;

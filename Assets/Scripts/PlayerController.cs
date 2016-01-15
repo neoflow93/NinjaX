@@ -53,6 +53,7 @@ public class PlayerController : BaseCharacterController {
 			if (Time.fixedTime > jumpStartTime + 1.0f) {
 				if (stateInfo.nameHash == ANISTS_Idle || stateInfo.nameHash == ANISTS_Walk || 
 				    stateInfo.nameHash == ANISTS_Run  || stateInfo.nameHash == ANISTS_Jump) {
+
 					rigidbody2D.gravityScale = gravityScale;
 				}
 			}
@@ -60,7 +61,7 @@ public class PlayerController : BaseCharacterController {
 			jumpCount = 0;
 			rigidbody2D.gravityScale = gravityScale;
 		}
-
+		Debug.Log (string.Format(">>> jump count : {0}", jumpCount));
 		// 공격 중인지 검사
 		if (stateInfo.nameHash == ANISTS_ATTACK_A || 
 		    stateInfo.nameHash == ANISTS_ATTACK_B || 
@@ -157,6 +158,9 @@ public class PlayerController : BaseCharacterController {
 					jumped = true;
 					jumpCount ++;
 				}
+				break;
+			case 2:
+				Debug.Log ("> jump count 2");
 				break;
 			}
 		}
