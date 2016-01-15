@@ -217,6 +217,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velocityMin: {x: -100, y: -100}
   velocityMax: {x: 100, y: 50}
+  superArmor: 0
+  superArmor_jumpAttackDmg: 1
   initHpMax: 20
   initSpeed: 12
 --- !u!114 &73194326

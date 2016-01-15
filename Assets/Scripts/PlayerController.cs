@@ -48,9 +48,17 @@ public class PlayerController : BaseCharacterController {
 				animator.SetTrigger ("Idle");
 				jumped 	  = false;
 				jumpCount = 0;
+				rigidbody2D.gravityScale = gravityScale;
+			}
+			if (Time.fixedTime > jumpStartTime + 1.0f) {
+				if (stateInfo.nameHash == ANISTS_Idle || stateInfo.nameHash == ANISTS_Walk || 
+				    stateInfo.nameHash == ANISTS_Run  || stateInfo.nameHash == ANISTS_Jump) {
+					rigidbody2D.gravityScale = gravityScale;
+				}
 			}
 		} else {
 			jumpCount = 0;
+			rigidbody2D.gravityScale = gravityScale;
 		}
 
 		// 공격 중인지 검사
@@ -108,6 +116,7 @@ public class PlayerController : BaseCharacterController {
 		// 애니메이션 지정
 		float moveSpeed = Mathf.Clamp(Mathf.Abs (n),-1.0f,+1.0f);
 		animator.SetFloat("MovSpeed",moveSpeed);
+		//animator.speed = 1.0f + moveSpeed;
 
 		// 이동 체크
 		if (n != 0.0f) {
@@ -127,33 +136,42 @@ public class PlayerController : BaseCharacterController {
 	}
 
 	public void ActionJump() {
-		switch(jumpCount) {
-		case 0 :
-			if (grounded) {
-				animator.SetTrigger ("Jump");
-				rigidbody2D.velocity = Vector2.up * 30.0f;
-				jumpStartTime = Time.fixedTime;
-				jumped = true;
-				jumpCount ++;
+		AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+		if (stateInfo.nameHash == ANISTS_Idle || stateInfo.nameHash == ANISTS_Walk || stateInfo.nameHash == ANISTS_Run || 
+		    (stateInfo.nameHash == ANISTS_Jump && rigidbody2D.gravityScale >= gravityScale)) {
+			switch(jumpCount) {
+			case 0 :
+				if (grounded) {
+					animator.SetTrigger ("Jump");
+					//rigidbody2D.AddForce (new Vector2 (0.0f, 1500.0f));	// Bug
+					rigidbody2D.velocity = Vector2.up * 30.0f;
+					jumpStartTime = Time.fixedTime;
+					jumped = true;
+					jumpCount ++;
+				}
+				break;
+			case 1 :
+				if (!grounded) {
+					animator.Play("Player_Jump",0,0.0f);
+					rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x,20.0f);
+					jumped = true;
+					jumpCount ++;
+				}
+				break;
 			}
-			break;
-		case 1 :
-			if (!grounded) {
-				animator.Play("Player_Jump",0,0.0f);
-				rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x,20.0f);
-				jumped = true;
-				jumpCount ++;
-			}
-			break;
 		}
 	}
 
 	public void ActionAttack() {
 		AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 		if (stateInfo.nameHash == ANISTS_Idle || stateInfo.nameHash == ANISTS_Walk || stateInfo.nameHash == ANISTS_Run || 
-		    stateInfo.nameHash == ANISTS_Jump) {
+		    stateInfo.nameHash == ANISTS_Jump || stateInfo.nameHash == ANISTS_ATTACK_C) {
 
 			animator.SetTrigger ("Attack_A");
+			if (stateInfo.nameHash == ANISTS_Jump || stateInfo.nameHash == ANISTS_ATTACK_C) {
+				rigidbody2D.velocity 	 = Vector2.zero;
+				rigidbody2D.gravityScale = 0.1f;
+			}
 		} else {
 			if (atkInputEnabled) {
 				atkInputEnabled = false;
@@ -161,7 +179,22 @@ public class PlayerController : BaseCharacterController {
 			}
 		}
 	}
-	
+
+	public void ActionAttackJump() {
+		AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+		if (grounded && 
+		    (stateInfo.nameHash == ANISTS_Idle || stateInfo.nameHash == ANISTS_Walk || stateInfo.nameHash == ANISTS_Run ||
+		     stateInfo.nameHash == ANISTS_ATTACK_A || stateInfo.nameHash == ANISTS_ATTACK_B)) {
+			animator.SetTrigger ("Attack_C");
+			jumpCount = 2;
+		} else {
+			if (atkInputEnabled) {
+				atkInputEnabled = false;
+				atkInputNow 	= true;
+			}
+		}
+	}
+
 }
 
 
